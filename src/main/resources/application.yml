@@ -1,0 +1,16 @@
+jwt:
+  secret: ${JWT_SECRET}
+
+spring:
+  application:
+    name: crud-spring
+  datasource:
+    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USER}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
