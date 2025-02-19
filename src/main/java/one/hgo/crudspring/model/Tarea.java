@@ -1,11 +1,9 @@
 package one.hgo.crudspring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import one.hgo.crudspring.model.enums.Status;
+import lombok.*;
+import one.hgo.crudspring.enums.TareaStatus;
 
 import java.util.Date;
 
@@ -14,17 +12,19 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Tarea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String titulo;
     private String descripcion;
     private Date fecha_limite;
 
     @Enumerated(EnumType.STRING)
-    private Status estado;
+    private TareaStatus estado;
 
+    @JsonIgnore
     @ManyToOne
-    private Proyecto proyecto_id;
+    private Proyecto proyecto;
 }

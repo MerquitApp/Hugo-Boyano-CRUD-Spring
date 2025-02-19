@@ -1,11 +1,8 @@
 package one.hgo.crudspring.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import one.hgo.crudspring.model.enums.Status;
+import lombok.*;
+import one.hgo.crudspring.enums.ProyectoStatus;
 
 import java.util.Date;
 import java.util.List;
@@ -15,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Proyecto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +22,8 @@ public class Proyecto {
     private Date fecha_inicio;
 
     @Enumerated(EnumType.STRING)
-    private Status estado;
+    private ProyectoStatus estado;
 
-    @OneToMany(mappedBy = "proyecto_id")
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tarea> tareas;
 }
