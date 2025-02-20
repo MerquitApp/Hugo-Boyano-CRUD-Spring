@@ -18,7 +18,7 @@ public class UsersService {
     public void create(UsersDTO userDTO) {
         Users user = new Users();
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-        user.setUsername(userDTO.getUsername());
+        user.setUsername(userDTO.getUsername().toLowerCase());
         user.setPassword(encodedPassword);
         this.userRepository.save(user);
     }
@@ -30,5 +30,9 @@ public class UsersService {
     public boolean isValid(String username, String password) {
         Users user = this.userRepository.findUserByUsername(username);
         return user != null && passwordEncoder.matches(password, user.getPassword());
+    }
+
+    public Users getById(Long id) {
+        return this.userRepository.findById(id).orElse(null);
     }
 }

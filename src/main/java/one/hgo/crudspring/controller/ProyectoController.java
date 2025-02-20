@@ -1,5 +1,6 @@
 package one.hgo.crudspring.controller;
 
+import ch.qos.logback.core.model.Model;
 import one.hgo.crudspring.dto.ProyectoDTO;
 import one.hgo.crudspring.model.Proyecto;
 import one.hgo.crudspring.service.ProyectoService;
@@ -38,5 +39,10 @@ public class ProyectoController {
     public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
         this.proyectoService.deleteById(id);
         return ResponseEntity.ok("Proyecto Eliminado");
+    }
+
+    @GetMapping("/crear")
+    public String crearProyecto(Model model) {
+        return "crear-proyecto";
     }
 }

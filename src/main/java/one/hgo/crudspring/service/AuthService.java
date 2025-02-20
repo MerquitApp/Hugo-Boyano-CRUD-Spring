@@ -27,4 +27,15 @@ public class AuthService {
     public void register(UsersDTO userDTO) {
         this.userService.create(userDTO);
     }
+
+    public Users getUserByJwt(String token) {
+        boolean isValid = this.jwtService.isValid(token);
+
+        if (!isValid) {
+            return null;
+        }
+
+        Long userId = this.jwtService.getJwtId(token);
+        return this.userService.getById(userId);
+    }
 }

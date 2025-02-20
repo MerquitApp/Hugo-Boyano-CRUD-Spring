@@ -1,5 +1,6 @@
 package one.hgo.crudspring.controller;
 
+import ch.qos.logback.core.model.Model;
 import one.hgo.crudspring.dto.TareaDTO;
 import one.hgo.crudspring.model.Tarea;
 import one.hgo.crudspring.service.TareaService;
@@ -30,5 +31,10 @@ public class TareaController {
     public ResponseEntity<Tarea> update(@RequestBody TareaDTO tareaDto, @PathVariable("id") Long id) {
         Tarea tarea = this.tareaService.update(id, tareaDto);
         return ResponseEntity.ok(tarea);
+    }
+
+    @GetMapping("/crear")
+    public String crearTarea(Model model) {
+        return "crear-tarea";
     }
 }

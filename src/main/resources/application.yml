@@ -8,6 +8,8 @@ spring:
     password: ${JDBC_DATABASE_PASSWORD}
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USER}
+  mvc:
+    static-path-pattern: /static/**
   jpa:
     hibernate:
       ddl-auto: create-drop

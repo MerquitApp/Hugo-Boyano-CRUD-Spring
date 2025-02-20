@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="icon" href="/static/favicon.png" type="image/png">
+
+    <title>Iniciar sesión</title>
+    <script defer type="text/javascript" src="/static/js/login.js"></script>
+</head>
+<body class="container is-max-tablet">
+<h1 class="title is-1 mt-6">Iniciar sesión</h1>
+<form class="mt-6" id="login-form">
+    <div class="field">
+        <label class="label">Nombre de usuario</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="Waxer59" name="username" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Contraseña</label>
+        <div class="control">
+            <input class="input" type="password" placeholder="..." name="password" required>
+        </div>
+    </div>
+
+    <button type="submit" class="button is-white">Iniciar sesión</button>
+</form>
+<a href="/auth/register/form" class="mt-4 is-inline-block">¿No tienes cuenta? Regístrate</a>
+</body>
+</html>
