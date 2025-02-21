@@ -10,6 +10,13 @@ spring:
     username: ${JDBC_DATABASE_USER}
   mvc:
     static-path-pattern: /static/**
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${OAUTH_GITHUB_CLIENT_ID}
+            client-secret: ${OAUTH_GITHUB_CLIENT_SECRET}
   jpa:
     hibernate:
       ddl-auto: update

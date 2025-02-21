@@ -3,8 +3,8 @@ package one.hgo.crudspring.controller;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import one.hgo.crudspring.dto.UsersDTO;
-import one.hgo.crudspring.model.Users;
+import one.hgo.crudspring.dto.UserDetailsDTO;
+import one.hgo.crudspring.model.UserDetails;
 import one.hgo.crudspring.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class AuthController {
     @GetMapping("/register/form")
     public String registerForm(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
         Cookie cookie = WebUtils.getCookie(request, "auth");
-        Users user = null;
+        UserDetails user = null;
 
         if (cookie != null) {
             user = this.authService.getUserByJwt(cookie.getValue());
@@ -40,7 +40,7 @@ public class AuthController {
     @GetMapping("/login/form")
     public String loginForm(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
         Cookie cookie = WebUtils.getCookie(request, "auth");
-        Users user = null;
+        UserDetails user = null;
 
         if (cookie != null) {
             user = this.authService.getUserByJwt(cookie.getValue());
@@ -54,13 +54,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UsersDTO userDTO) {
+    public ResponseEntity<String> register(@RequestBody UserDetailsDTO userDTO) {
         this.authService.register(userDTO);
         return ResponseEntity.ok("Usuario Registrado");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UsersDTO userDTO, HttpServletResponse response) {
+    public ResponseEntity<String> login(@RequestBody UserDetailsDTO userDTO, HttpServletResponse response) {
         String token = this.authService.login(userDTO);
 
         if (token == null) {
@@ -84,5 +84,10 @@ public class AuthController {
         cookie.setHttpOnly(true);
 
         response.addCookie(cookie);
+    }
+
+    @GetMapping("/login/github")
+    public String loginWithGithub(HttpServletRequest request) {
+        return "redirect:/oauth2/authorization/github"; // Redirige a la URL que Spring Security espera
     }
 }

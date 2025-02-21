@@ -1,7 +1,7 @@
 package one.hgo.crudspring.service;
 
-import one.hgo.crudspring.dto.UsersDTO;
-import one.hgo.crudspring.model.Users;
+import one.hgo.crudspring.dto.UserDetailsDTO;
+import one.hgo.crudspring.model.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +13,26 @@ public class AuthService {
     @Autowired
     private JWTService jwtService;
 
-    public String login(UsersDTO userDTO) {
+    public String login(UserDetailsDTO userDTO) {
         boolean isValid = this.userService.isValid(userDTO.getUsername(), userDTO.getPassword());
 
         if (!isValid) {
             return null;
         }
 
-        Users user = this.userService.getByUsername(userDTO.getUsername());
+        if(userDTO.getPassword().isEmpty()) {
+            return null;
+        }
+
+        UserDetails user = this.userService.getByUsername(userDTO.getUsername());
         return this.jwtService.generateToken(user.getId());
     }
 
-    public void register(UsersDTO userDTO) {
+    public void register(UserDetailsDTO userDTO) {
         this.userService.create(userDTO);
     }
 
-    public Users getUserByJwt(String token) {
+    public UserDetails getUserByJwt(String token) {
         boolean isValid = this.jwtService.isValid(token);
 
         if (!isValid) {

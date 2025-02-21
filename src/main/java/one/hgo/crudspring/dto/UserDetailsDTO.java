@@ -9,7 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UsersDTO {
+public class UserDetailsDTO {
     private String username;
     private String password;
+    private String githubId;
 }

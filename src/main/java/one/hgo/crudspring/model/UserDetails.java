@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Users {
+public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,4 +17,5 @@ public class Users {
     @Column(unique = true)
     private String username;
     private String password;
+    private String githubId;
 }

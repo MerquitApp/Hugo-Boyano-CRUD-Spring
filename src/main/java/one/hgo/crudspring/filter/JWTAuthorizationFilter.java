@@ -6,7 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import one.hgo.crudspring.model.Users;
+import one.hgo.crudspring.model.UserDetails;
 import one.hgo.crudspring.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +29,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Cookie cookie = WebUtils.getCookie(request, "auth");
-        Users user = null;
+        UserDetails user = null;
 
         if (cookie != null) {
             user = this.authService.getUserByJwt(cookie.getValue());

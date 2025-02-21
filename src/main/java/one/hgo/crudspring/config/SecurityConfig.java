@@ -1,6 +1,9 @@
 package one.hgo.crudspring.config;
 
 import one.hgo.crudspring.filter.JWTAuthorizationFilter;
+import one.hgo.crudspring.handler.OAuth2SuccessHandler;
+import one.hgo.crudspring.service.CustomOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +24,12 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/auth/register/**")
     );
 
+    @Autowired
+    private CustomOauth2UserService customOauth2UserService;
+
+    @Autowired
+    private OAuth2SuccessHandler oAuth2SuccessHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -28,9 +37,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(this.excludedUrls.toArray(AntPathRequestMatcher[]::new)).permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.
+                        sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form.loginPage("/auth/login/form"))
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/auth/login/github")
+                        .successHandler(this.oAuth2SuccessHandler)
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(this.customOauth2UserService)
+                        ))
                 .build();
     }
 
