@@ -29,7 +29,7 @@ public class ProyectoService {
         return proyectoRepository.save(proyecto);
     }
 
-    public void update(Long id, ProyectoDTO proyectoDTO) {
+    public Proyecto update(Long id, ProyectoDTO proyectoDTO) {
         Proyecto proyecto = this.getById(id);
 
         if (proyectoDTO.getName() != null) {
@@ -49,6 +49,7 @@ public class ProyectoService {
         }
 
         proyectoRepository.save(proyecto);
+        return proyecto;
     }
 
     public List<Proyecto> getAll() {

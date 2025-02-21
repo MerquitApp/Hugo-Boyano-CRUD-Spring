@@ -4,12 +4,16 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import one.hgo.crudspring.dto.UsersDTO;
+import one.hgo.crudspring.model.Users;
 import one.hgo.crudspring.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/auth")
@@ -18,12 +22,34 @@ public class AuthController {
     private AuthService authService;
 
     @GetMapping("/register/form")
-    public String registerForm(Model model) {
+    public String registerForm(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        Cookie cookie = WebUtils.getCookie(request, "auth");
+        Users user = null;
+
+        if (cookie != null) {
+            user = this.authService.getUserByJwt(cookie.getValue());
+        }
+
+        if (user != null) {
+            response.sendRedirect("/proyectos/ver");
+        }
+
         return "register";
     }
 
     @GetMapping("/login/form")
-    public String loginForm(Model model) {
+    public String loginForm(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        Cookie cookie = WebUtils.getCookie(request, "auth");
+        Users user = null;
+
+        if (cookie != null) {
+            user = this.authService.getUserByJwt(cookie.getValue());
+        }
+
+        if (user != null) {
+            response.sendRedirect("/proyectos/ver");
+        }
+
         return "login";
     }
 

@@ -71,4 +71,8 @@ public class TareaService {
     public void deleteById(Long id) {
         tareaRepository.deleteById(id);
     }
+
+    public List<Tarea> getAll() {
+        return tareaRepository.findAll();
+    }
 }

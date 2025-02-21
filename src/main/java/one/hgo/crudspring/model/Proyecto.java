@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import one.hgo.crudspring.enums.ProyectoStatus;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Proyecto {
+public class Proyecto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

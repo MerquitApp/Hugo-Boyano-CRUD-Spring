@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import one.hgo.crudspring.enums.TareaStatus;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class Tarea {
+public class Tarea implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

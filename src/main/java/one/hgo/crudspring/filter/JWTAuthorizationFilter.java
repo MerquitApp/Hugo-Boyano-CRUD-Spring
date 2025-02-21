@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import one.hgo.crudspring.model.Users;
 import one.hgo.crudspring.service.AuthService;
-import one.hgo.crudspring.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,15 +24,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     private AuthService authService;
 
-    private final List<AntPathRequestMatcher> publicUrls;
-    private final List<AntPathRequestMatcher> privateUrls;
     private final List<AntPathRequestMatcher> excludedUrls;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Cookie cookie = WebUtils.getCookie(request, "auth");
-        boolean isPublicUrl = this.publicUrls.stream().anyMatch(matcher -> matcher.matches(request));
-        boolean isPrivateUrl = this.privateUrls.stream().anyMatch(matcher -> matcher.matches(request));
         Users user = null;
 
         if (cookie != null) {
@@ -42,11 +37,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         boolean isAuthenticated = user != null;
 
-        if (isAuthenticated && isPublicUrl) {
-            response.sendRedirect("/proyectos/crear");
-        } else if (!isAuthenticated && isPrivateUrl) {
-            response.sendRedirect("/auth/login/form");
-        } else if (isAuthenticated) {
+        if (isAuthenticated) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, null);
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);

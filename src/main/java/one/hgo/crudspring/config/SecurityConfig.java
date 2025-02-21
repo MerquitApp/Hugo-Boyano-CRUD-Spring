@@ -11,41 +11,31 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
     private final List<AntPathRequestMatcher> excludedUrls = List.of(
             new AntPathRequestMatcher("/static/**"),
-            new AntPathRequestMatcher("/auth/login"),
-            new AntPathRequestMatcher("/auth/register")
-    );
-
-    private final List<AntPathRequestMatcher> publicUrls = List.of(
-            new AntPathRequestMatcher("/auth/login/form"),
-            new AntPathRequestMatcher("/auth/register/form")
-    );
-
-    private final List<AntPathRequestMatcher> privateUrls = List.of(
-            new AntPathRequestMatcher("/proyectos/crear"),
-            new AntPathRequestMatcher("/tareas/crear")
+            new AntPathRequestMatcher("/auth/login/**"),
+            new AntPathRequestMatcher("/auth/register/**")
     );
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-//                        .requestMatchers(Stream.concat(this.excludedUrls.stream(), this.publicUrls.stream()).toArray(AntPathRequestMatcher[]::new)).permitAll()
-//                        .anyRequest().authenticated())
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers(this.excludedUrls.toArray(AntPathRequestMatcher[]::new)).permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.loginPage("/auth/login/form"))
                 .build();
     }
 
     @Bean
     public JWTAuthorizationFilter jwtAuthorizationFilter() {
-        return new JWTAuthorizationFilter(this.publicUrls, this.privateUrls, this.excludedUrls);
+        return new JWTAuthorizationFilter(this.excludedUrls);
     }
 }

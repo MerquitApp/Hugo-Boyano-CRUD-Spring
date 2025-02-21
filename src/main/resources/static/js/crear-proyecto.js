@@ -1,12 +1,13 @@
-const form = document.querySelector('#register-form');
+const form = document.querySelector('#crear-proyecto-form');
 
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
     const formData = new FormData(form);
 
     try {
-        const response = await fetch('/auth/register', {
+        const response = await fetch('/proyectos', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -14,14 +15,14 @@ form.addEventListener('submit', async function (event) {
         });
 
         if (response.ok) {
-            alert('Cuenta creada correctamente');
-            window.location.href = '/auth/login/form';
+            alert("Proyecto creado correctamente")
         } else {
-            alert('Error al crear la cuenta');
+            alert("Error al crear el proyecto")
         }
 
         form.reset();
     } catch (error) {
-        alert('Error al crear la cuenta');
+
+        alert("Error al crear el proyecto")
     }
 });

@@ -4,10 +4,54 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <link rel="icon" href="/static/favicon.png" type="image/png">
-
     <title>Crear tarea</title>
+    <script defer type="text/javascript" src="/static/js/crear-proyecto.js"></script>
+    <script defer type="text/javascript" src="/static/js/btn-logout.js"></script>
 </head>
-<body>
+<body class="container is-max-tablet">
+<div class="is-flex mt-6 is-gap-2 mt-6">
+    <h1 class="title is-1 mb-0">Crear Proyecto</h1>
+    <button class="button is-danger is-dark" id="btn-logout">Cerrar Sesión</button>
+</div>
+<form class="mt-6" id="crear-proyecto-form">
+    <div class="field">
+        <label class="label">Nombre</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="Spring" name="name" required>
+        </div>
+    </div>
 
+    <div class="field">
+        <label class="label">Estado</label>
+        <div class="select">
+            <select name="estado">
+                <option value="ACTIVO">Activo</option>
+                <option value="EN_PROGRESO">En progreso</option>
+                <option value="CERRADO">Cerrado</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Fecha de inicio</label>
+        <div class="control">
+            <input class="input" type="date" name="fecha_inicio" required>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Descripción</label>
+        <div class="control">
+            <textarea class="textarea" placeholder="Spring Boot" name="descripcion" required></textarea>
+        </div>
+    </div>
+
+    <button type="submit" class="button is-white">Crear</button>
+</form>
+
+<div class="is-flex mt-6 is-gap-2">
+    <a class="button is-primary is-dark" href="/tareas/crear">Crear Tarea</a>
+    <a class="button is-info is-dark" href="/proyectos/ver">Ver Proyectos</a>
+</div>
 </body>
 </html>
